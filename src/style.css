@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+/*
+ * Paleta skopiowana 1:1 z osp_chancza/resources/css/app.css (patrz CLAUDE.md) —
+ * placeholder motywu platformy, dopóki nie zdecydujemy o docelowym brandingu.
+ */
+@theme {
+  --color-navy: #1a1f2e;
+  --color-navy-mid: #252b3b;
+  --color-navy-light: #303650;
+
+  --color-red: #cc1f1f;
+  --color-red-dark: #a01515;
+  --color-red-light: #e53535;
+
+  --color-gold: #d4a017;
+  --color-gold-light: #f0bc2e;
+
+  --color-white: #f8f8f6;
+  --color-gray-100: #f1f1ef;
+  --color-gray-200: #e2e2de;
+  --color-gray-400: #9ca3a0;
+  --color-gray-600: #5a5f5c;
+  --color-gray-800: #2c2f2e;
+  --color-black: #111312;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}

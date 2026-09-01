@@ -1,44 +1,53 @@
 # TODO
 
-Lista kroków do zbudowania frontu OSPortal w Vue.js. Kontekst i decyzje architektoniczne
-(dlaczego akurat tak) są opisane w `CLAUDE.md` w tym repo. Backend/API żyje w osobnym,
-siostrzanym repo `osp_chancza` (`../osp_chancza`) — jego własny `TODO.md` śledzi to, co
-zostało tam do zrobienia pod ten front (m.in. otwarcie `/api/posts`/`/api/categories` dla
-gości, API dla Galerii).
+Lista kroków do zbudowania strony marketingowej OSPortal (`osportal.pl`). Kontekst i decyzje
+architektoniczne są opisane w `CLAUDE.md` w tym repo — w skrócie: **to repo to wyłącznie
+marketing**, żadnego logowania, dashboardu, bloga ani galerii. Właściwa appka do zarządzania
+jednostką (login + OSPanel z `osp_chancza` w Vue) to osobne, jeszcze nie założone repo pod
+`app.osportal.pl`.
 
 ## Inicjalizacja repo
 
-- [x] Repo Vue założone (`osportal`, siostrzane do `osp_chancza`)
-- [ ] Szkielet: Vite + Vue 3 (+TS) + Vue Router (+ Pinia, jeśli potrzebny globalny stan)
-- [ ] Tailwind v4 z tokenami kolorów skopiowanymi 1:1 z `osp_chancza/resources/css/app.css`:
-      navy `#1a1f2e`/`#252b3b`/`#303650`, czerwień `#cc1f1f`/`#a01515`/`#e53535`,
-      złoto `#d4a017`/`#f0bc2e`, plus neutralne biel/szarości/czerń
-- [ ] Cienki klient API (`api/client.ts`), `baseURL` z `VITE_API_URL` wskazującego na backend
-      (domyślnie w dev: `http://localhost:8000/api`, do potwierdzenia przy uruchomieniu
-      `composer run dev` w `osp_chancza`)
+- [x] Repo Vue założone (`osportal`)
+- [x] Szkielet: Vite + Vue 3 (+TS) + Vue Router (+ Pinia)
+- [x] Tailwind v4 z tokenami kolorów skopiowanymi 1:1 z `osp_chancza/resources/css/app.css`
 
-## Logowanie / autentykacja (Sanctum, tryb tokenowy)
+## Porządki po zmianie zakresu
 
-- [ ] Pinia store z tokenem (Bearer) — świadomość, że token w JS jest podatny na XSS, pilnować
-      sanitizacji treści renderowanych z API
-- [ ] Axios interceptor doklejający `Authorization: Bearer <token>`, obsługa `401` →
-      wylogowanie + redirect na `/login`
-- [ ] Router guardy (`meta: { requiresAuth: true }`) na widokach wymagających zalogowania
-- [ ] Widok logowania (`POST /api/login` z `email`, `password`, `device_name`) w palecie
-      granat/czerwień/złoto
+Ten projekt wcześniej zakładał multi-tenant stronę z treścią jednostek (blog/galeria) i
+logowaniem — ten kierunek porzucony, zostaje tu tylko marketing. Do posprzątania:
 
-## Widoki treści
+- [ ] Usunąć `src/views/UnitHome.vue`, `src/data/mockUnits.ts`, `src/types/content.ts`,
+      `src/components/NewsCard.vue`, `src/components/GalleryCard.vue` — treść jednostki
+      (blog/galeria) nie jest w zakresie tego repo
+- [ ] Uprościć router (`src/router/index.ts`) do samych stron marketingowych (na start: `/`,
+      ewentualnie `/cennik`, `/kontakt` itp. — do ustalenia w miarę potrzeb)
+- [ ] Przerobić `NavBar.vue` — bez logiki per-jednostka; przyciski "Załóż konto" i "Zaloguj"
+      linkujące (na razie donikąd / placeholder) do `app.osportal.pl`, docelowo do appki, gdy ta
+      powstanie
 
-Zależne od dokończenia odpowiednich endpointów po stronie backendu (patrz `osp_chancza/TODO.md`).
+## Strona marketingowa
 
-- [ ] Strona główna (hero, sekcja "Aktualności", sekcja "Galeria" — odpowiedniki
-      `x-sections.news`/`x-sections.gallery` z `osp_chancza`)
-- [ ] `/blog` i `/blog/:slug`
-- [ ] `/galeria` i `/galeria/:slug`
+- [ ] Hero: co to jest OSPortal (oprogramowanie do zarządzania jednostką OSP — strażacy,
+      pojazdy, sprzęt, zdarzenia), CTA "Załóż konto"
+- [ ] Sekcja funkcji/korzyści — do treści: co konkretnie robi OSPanel w `osp_chancza`
+      (`UnitResource`, `FirefighterResource`, `VehicleResource`, `EquipmentResource`,
+      `IncidentResource`, `Settings`/przypomnienia) przełożone na język korzyści dla jednostki
+- [ ] Zrzuty ekranu / mockupy produktu (na razie appka nie istnieje — placeholdery albo zrzuty z
+      panelu Filament jako tymczasowe)
+- [ ] Formularz kontaktowy / zgłoszeniowy (dokąd wysyła dane — do ustalenia: e-mail, prosty
+      endpoint, zewnętrzne narzędzie?)
+- [ ] Navbar z CTA "Załóż konto" / "Zaloguj" → `app.osportal.pl` (gdy appka powstanie)
+- [ ] Stopka
 
 ## Wdrożenie
 
-- [ ] Ustalić i skonfigurować docelową domenę produkcyjną tego frontu, dodać ją do
-      `FRONTEND_URLS` w `.env` backendu (`osp_chancza`)
-- [ ] Wybór hostingu frontu (Netlify/Vercel/nginx — do ustalenia)
-- [ ] Sprawdzić cache HTTP (`Cache-Control`/ETag) na publicznych endpointach GET backendu
+- [ ] Wybór hostingu (statyczny content — Netlify/Vercel/nginx wystarczą, brak backendu)
+- [ ] Domena `osportal.pl` skierowana na hosting tego repo
+
+## Poza zakresem tego repo (do zrobienia w nowym repo `app.osportal.pl`, gdy powstanie)
+
+- Logowanie (Sanctum, tryb tokenowy) przeciw `osp_chancza`
+- Zarządzanie jednostką pod `app.osportal.pl/{unit}` — reimplementacja OSPanel z Filamentu w Vue
+- Multitenancy po stronie backendu (`osp_chancza`) — patrz `osp_chancza/TODO.md`, sekcja
+  "Multitenancy"

@@ -5,45 +5,54 @@ repository.
 
 ## Project overview
 
-**This repo is the frontend.** OSPortal — the Vue.js frontend for OSP w Chańczy ("Ochotnicza
-Straż Pożarna", a volunteer fire department). This repo is a pure frontend: it has no backend of
-its own. All data (blog posts, gallery, authentication, and any future content) is served by a
-separate, sibling repo, **`osp_chancza`** (`/home/mateusz/code/laravel/osp_chancza`, i.e.
-`../osp_chancza` from here) — the Laravel + Filament backend/API. That repo's admin panel
-(Filament, at `/admin`) is where staff manage content; this app is the public/member-facing
-consumer of its JSON API (`osp_chancza/routes/api.php`). See its own `CLAUDE.md` for the backend
-side of the plan. The two are independent git repos coupled only by an HTTP API contract, no
-submodule/shared code. See `TODO.md` in each repo for their respective step plans.
+**This repo is the marketing site for osportal.pl, and nothing else.** OSPortal is a product:
+software for Polish volunteer fire departments (jednostki OSP — "Ochotnicza Straż Pożarna") to
+manage their unit (firefighters, vehicles, equipment, incidents/callouts) — currently that's the
+"OSPanel" section of the Filament admin panel in the sibling repo `osp_chancza`. This repo
+(`osportal.pl`) is the public-facing pitch for that product: hero, feature copy, screenshots, a
+"Załóż konto" / "Zaloguj" call to action. **No login, no auth, no dashboard, no blog, no gallery,
+no unit-specific content lives here** — those all belong to a separate, not-yet-created app
+(planned domain **`app.osportal.pl`**) that actually implements the OSPanel functionality
+(login screen, then unit management at `app.osportal.pl/{unit}`). Until that app repo exists,
+the "Załóż konto"/"Zaloguj" buttons here are just UI (no real destination yet).
 
-Domain text (labels, UI copy) should be in Polish, matching `osp_chancza`.
+Domain text (labels, UI copy) should be in Polish.
 
 ## Decisions already made (do not re-litigate without reason)
 
-**Repo topology:** `osp_chancza` (backend/API) and `osportal` (this repo, frontend) are two
-fully independent git repos, kept as sibling directories — no submodule, no monorepo. They are
-coupled only by an HTTP API contract, never by shared code or a shared git history.
+**Scope: marketing only.** This repo has no backend, no auth, and no per-unit content pages.
+Earlier drafts of this repo (and its `TODO.md`) explored a multi-tenant content site with
+login, blog, and gallery living here — that direction was dropped. Blog/gallery are not part of
+OSPortal's scope at all right now (they're not planned for `app.osportal.pl` either — that app
+is unit *management* (OSPanel), not a public content site). If you find leftover blog/gallery
+code or TODO items referencing them in this repo, they're stale — flag it, don't build against
+it.
 
-**Auth: Laravel Sanctum, token mode (Bearer), not cookie/SPA mode.** Decided because this app
-will be hosted on a fully separate domain from the API, not a subdomain sharing a parent domain
-— Sanctum's stateful/cookie SPA mode requires a shared parent domain, so it doesn't apply here.
-Concretely:
-- `POST /api/login` — body `{ email, password, device_name }`, rate-limited (5/min on the
-  backend). Returns `{ token, user: { id, name, email } }`. `device_name` should be a
-  human-readable label for the session (e.g. `"web"` or a generated device string) since Sanctum
-  names tokens by it — useful later for a "manage your sessions" screen.
-- `POST /api/logout` — requires `Authorization: Bearer <token>`, revokes that token.
-- `GET /api/user` — requires `Authorization: Bearer <token>`, returns the current user.
-- No CSRF cookie dance, no `withCredentials`/cookie jar needed — just attach the bearer token to
-  every request via an axios/fetch interceptor.
+**Two-domain split:**
+- `osportal.pl` (**this repo**) — marketing/landing page for the product.
+- `app.osportal.pl` (**separate, not-yet-created repo**) — the actual product: login (Sanctum
+  Bearer token, same API design as previously drafted — `POST /api/login`, `POST /api/logout`,
+  `GET /api/user` against `osp_chancza`), then unit management at `app.osportal.pl/{unit}`,
+  reimplementing in Vue what Filament's "OSPanel" nav group currently does in `osp_chancza`
+  (`UnitResource`, `FirefighterResource`, `VehicleResource`, `EquipmentResource`,
+  `IncidentResource`, plus the `Settings` page) — see `osp_chancza/CLAUDE.md`'s "Feature flags"
+  section for what that covers today. That repo doesn't exist yet; when it's created, link it
+  here the same way `osp_chancza` is linked below.
 
-**Who logs in:** this app's logins reuse the **same `User` model** as the Filament admin panel
-in `osp_chancza` — there is no separate `Firefighter`-specific login and no role/permission
-system yet. Every authenticated user currently has full access on the backend (its Policies
-grant blanket access to any authenticated `User`). If OSPortal later needs to restrict what
-different logged-in users can see/do, that requires introducing roles on the backend first —
-don't build client-side role gating against fields that don't exist yet.
+**Repo topology:** `osp_chancza` (backend/API) is a fully independent git repo, sibling
+directory to this one — no submodule, no monorepo. `../osp_chancza` from here
+(`/home/mateusz/code/laravel/osp_chancza`). Its admin panel (Filament, at `/admin`) is where
+staff manage everything today; this repo doesn't call its API at all (a pure marketing site has
+no need to). The future `app.osportal.pl` repo will be the one coupled to `osp_chancza` by an
+HTTP API contract.
 
-**Color palette — must match `osp_chancza`'s public site exactly** (source of truth:
+**Multi-tenancy (relevant to `app.osportal.pl`, not this repo): path-based, not
+subdomain-based.** Each OSP unit gets a path under `app.osportal.pl` (e.g.
+`app.osportal.pl/chancza`), not a subdomain — avoids wildcard DNS/SSL setup. The backend
+(`osp_chancza`) doesn't support multiple units yet — see its `TODO.md`'s "Multitenancy" section,
+not done yet.
+
+**Color palette — must match `osp_chancza`'s public site** (source of truth:
 `osp_chancza/resources/css/app.css`):
 - navy: `#1a1f2e` / mid `#252b3b` / light `#303650`
 - red: `#cc1f1f` / dark `#a01515` / light `#e53535`
@@ -52,25 +61,9 @@ don't build client-side role gating against fields that don't exist yet.
   gray-600 `#5a5f5c`, gray-800 `#2c2f2e`, black `#111312`
 
 Copy these tokens verbatim into this project's Tailwind theme rather than re-deriving a palette.
-
-## Backend API — current state (as of the decisions above)
-
-In `osp_chancza`:
-- `POST /api/login`, `POST /api/logout`, `GET /api/user` — done, described above.
-- `GET/POST/PUT/DELETE /api/posts`, `/api/categories` — exist, but **currently require an
-  authenticated user** (the underlying Filament Policies don't yet allow guest reads) — the
-  backend TODO includes adding a `published()` filter + opening `index`/`show` to guests. Don't
-  build a "public blog feed, no login" flow against these until that's done on the backend.
-- Gallery (`GalleryAlbum`/`GalleryCategory`) — **no API yet**, backend TODO item.
-- Firefighter roster — a `FirefighterController`/`Resource` exist in the backend but aren't
-  wired to any route (dead code); whether it's ever exposed publicly is an open backend decision
-  (sensitive fields like PESEL/phone would need to be stripped from the resource first).
-
-CORS on the backend is controlled by its `FRONTEND_URLS` env var (comma-separated origins);
-defaults to `http://localhost:5173` for local dev, matching Vite's default port.
+Whether `app.osportal.pl` reuses this exact palette or its own is not yet decided.
 
 ## Full step plan
 
-See this repo's `TODO.md` for the concrete, checkable step-by-step plan (tooling init, auth
-layer, content views, deployment) — kept there rather than duplicated here so it can be ticked
-off as work progresses.
+See this repo's `TODO.md` for the concrete, checkable step-by-step plan — kept there rather than
+duplicated here so it can be ticked off as work progresses.
