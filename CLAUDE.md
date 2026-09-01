@@ -11,10 +11,11 @@ manage their unit (firefighters, vehicles, equipment, incidents/callouts) — cu
 "OSPanel" section of the Filament admin panel in the sibling repo `osp_chancza`. This repo
 (`osportal.pl`) is the public-facing pitch for that product: hero, feature copy, screenshots, a
 "Załóż konto" / "Zaloguj" call to action. **No login, no auth, no dashboard, no blog, no gallery,
-no unit-specific content lives here** — those all belong to a separate, not-yet-created app
-(planned domain **`app.osportal.pl`**) that actually implements the OSPanel functionality
-(login screen, then unit management at `app.osportal.pl/{unit}`). Until that app repo exists,
-the "Załóż konto"/"Zaloguj" buttons here are just UI (no real destination yet).
+no unit-specific content lives here** — those all belong to the sibling repo **`osportal-app`**
+(`../osportal-app`, planned domain **`app.osportal.pl`**), which implements the OSPanel
+functionality (login screen, then unit management at `app.osportal.pl/{unit}`). See its own
+`CLAUDE.md` for all decisions about auth, multi-tenancy, and what it manages — don't duplicate
+those here. The "Załóż konto"/"Zaloguj" buttons in this repo just link there.
 
 Domain text (labels, UI copy) should be in Polish.
 
@@ -30,27 +31,14 @@ it.
 
 **Two-domain split:**
 - `osportal.pl` (**this repo**) — marketing/landing page for the product.
-- `app.osportal.pl` (**separate, not-yet-created repo**) — the actual product: login (Sanctum
-  Bearer token, same API design as previously drafted — `POST /api/login`, `POST /api/logout`,
-  `GET /api/user` against `osp_chancza`), then unit management at `app.osportal.pl/{unit}`,
-  reimplementing in Vue what Filament's "OSPanel" nav group currently does in `osp_chancza`
-  (`UnitResource`, `FirefighterResource`, `VehicleResource`, `EquipmentResource`,
-  `IncidentResource`, plus the `Settings` page) — see `osp_chancza/CLAUDE.md`'s "Feature flags"
-  section for what that covers today. That repo doesn't exist yet; when it's created, link it
-  here the same way `osp_chancza` is linked below.
+- `app.osportal.pl` (**sibling repo `osportal-app`**, `../osportal-app`) — the actual product:
+  login, then unit management. All decisions about it (auth, multi-tenancy, what it manages)
+  live in its own `CLAUDE.md` — this repo just links to it, doesn't restate its plan.
 
-**Repo topology:** `osp_chancza` (backend/API) is a fully independent git repo, sibling
-directory to this one — no submodule, no monorepo. `../osp_chancza` from here
-(`/home/mateusz/code/laravel/osp_chancza`). Its admin panel (Filament, at `/admin`) is where
-staff manage everything today; this repo doesn't call its API at all (a pure marketing site has
-no need to). The future `app.osportal.pl` repo will be the one coupled to `osp_chancza` by an
-HTTP API contract.
-
-**Multi-tenancy (relevant to `app.osportal.pl`, not this repo): path-based, not
-subdomain-based.** Each OSP unit gets a path under `app.osportal.pl` (e.g.
-`app.osportal.pl/chancza`), not a subdomain — avoids wildcard DNS/SSL setup. The backend
-(`osp_chancza`) doesn't support multiple units yet — see its `TODO.md`'s "Multitenancy" section,
-not done yet.
+**Repo topology:** `osp_chancza` (backend/API) and `osportal-app` (the app) are fully
+independent git repos, sibling directories to this one — no submodule, no monorepo.
+`../osp_chancza` and `../osportal-app` from here. This repo (pure marketing) calls neither of
+their APIs — it has nothing to fetch.
 
 **Color palette — must match `osp_chancza`'s public site** (source of truth:
 `osp_chancza/resources/css/app.css`):

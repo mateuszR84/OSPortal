@@ -45,9 +45,7 @@ logowaniem — ten kierunek porzucony, zostaje tu tylko marketing. Do posprząta
 - [ ] Wybór hostingu (statyczny content — Netlify/Vercel/nginx wystarczą, brak backendu)
 - [ ] Domena `osportal.pl` skierowana na hosting tego repo
 
-## Poza zakresem tego repo (do zrobienia w nowym repo `app.osportal.pl`, gdy powstanie)
+## Poza zakresem tego repo
 
-- Logowanie (Sanctum, tryb tokenowy) przeciw `osp_chancza`
-- Zarządzanie jednostką pod `app.osportal.pl/{unit}` — reimplementacja OSPanel z Filamentu w Vue
-- Multitenancy po stronie backendu (`osp_chancza`) — patrz `osp_chancza/TODO.md`, sekcja
-  "Multitenancy"
+Logowanie, zarządzanie jednostką i wszystko związane z `app.osportal.pl` — patrz repo
+`osportal-app` (`../osportal-app`), jego `CLAUDE.md`/`TODO.md`.
