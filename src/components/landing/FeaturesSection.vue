@@ -9,10 +9,10 @@ const features = [
       'Ewidencja druhów, kwalifikacje, badania lekarskie, szkolenia i dostępność.',
   },
   {
-    icon: 'calendar',
-    title: 'Wydarzenia',
+    icon: 'bell',
+    title: 'Powiadomienia',
     description:
-      'Zarządzaj akcjami, ćwiczeniami, zebraniami i innymi wydarzeniami jednostki.',
+      'Automatyczne przypomnienia o badaniach, szkoleniach i ważnych terminach — nic nie umknie.',
   },
   {
     icon: 'car',
