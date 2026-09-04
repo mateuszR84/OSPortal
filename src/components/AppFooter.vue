@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppIcon from './AppIcon.vue'
+import footerBg from '../assets/footer-bg.webp'
 
 const year = new Date().getFullYear()
 
@@ -18,8 +19,15 @@ const helpLinks = [
 </script>
 
 <template>
-  <footer id="kontakt" class="bg-black text-gray-200">
-    <div class="mx-auto max-w-6xl px-4 py-12 lg:flex lg:items-start lg:justify-between">
+  <footer id="kontakt" class="relative overflow-hidden bg-black text-gray-200">
+    <div
+      class="absolute inset-0 bg-cover bg-[position:center_65%]"
+      :style="{ backgroundImage: `url(${footerBg})` }"
+      aria-hidden="true"
+    />
+    <div class="absolute inset-0 bg-black/75" aria-hidden="true" />
+
+    <div class="relative mx-auto max-w-6xl px-4 py-12 lg:flex lg:items-start lg:justify-between">
       <div class="max-w-xs">
         <div class="flex items-center gap-2 text-lg font-bold text-white">
           <AppIcon name="flame" :size="20" class="text-red-light" />
@@ -70,7 +78,7 @@ const helpLinks = [
       </div>
     </div>
 
-    <div class="border-t border-white/10">
+    <div class="relative border-t border-white/10">
       <div class="mx-auto max-w-6xl px-4 py-6 text-xs">
         &copy; {{ year }} OSPortal. Wszelkie prawa zastrzeżone.
       </div>
