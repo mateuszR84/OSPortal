@@ -128,8 +128,8 @@ function toggle(index: number) {
           </span>
           <h2 class="mt-4 text-3xl font-bold text-black">Zgłoś problem</h2>
           <p class="mx-auto mt-4 max-w-xl text-gray-600">
-            Trafiłeś/aś na błąd na tej stronie albo coś działa inaczej, niż powinno? Daj nam znać —
-            odpiszemy najszybciej, jak się da.
+            Coś w OSPortal nie działa tak jak powinno? Błąd w aplikacji, nieprawidłowe dane albo
+            funkcja, która się psuje? Zgłoś to nam a naprawimy to jak najszybciej.
           </p>
           <a
             href="/#zgloszenie"
