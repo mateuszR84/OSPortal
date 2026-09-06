@@ -8,8 +8,6 @@ import BenefitsSection from '../components/landing/BenefitsSection.vue'
 import PricingSection from '../components/landing/PricingSection.vue'
 import CtaSection from '../components/landing/CtaSection.vue'
 import NewsletterSection from '../components/landing/NewsletterSection.vue'
-
-const APP_URL = 'https://app.osportal.pl'
 </script>
 
 <template>
@@ -17,12 +15,12 @@ const APP_URL = 'https://app.osportal.pl'
     <NavBar />
 
     <main class="flex-1">
-      <HeroSection :app-url="APP_URL" />
+      <HeroSection />
       <FeaturesSection />
-      <ShowcaseSection :app-url="APP_URL" />
-      <BenefitsSection />
-      <PricingSection :app-url="APP_URL" />
       <CtaSection />
+      <ShowcaseSection />
+      <BenefitsSection />
+      <PricingSection />
       <NewsletterSection />
     </main>
 

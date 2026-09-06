@@ -26,17 +26,19 @@ const benefits = [
 </script>
 
 <template>
-  <section id="korzysci" class="mx-auto max-w-6xl px-4 py-20">
-    <p class="text-center text-sm font-semibold uppercase tracking-wide text-red">Korzyści</p>
-    <h2 class="mt-2 text-center text-3xl font-bold text-black">Dlaczego OSPortal?</h2>
+  <section id="korzysci" class="bg-gray-100 py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <p class="text-center text-sm font-semibold uppercase tracking-wide text-red">Korzyści</p>
+      <h2 class="mt-2 text-center text-3xl font-bold text-black">Dlaczego OSPortal?</h2>
 
-    <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-      <div v-for="benefit in benefits" :key="benefit.title">
-        <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-red/10 text-red">
-          <AppIcon :name="benefit.icon" :size="22" />
-        </span>
-        <h3 class="mt-4 font-bold text-black">{{ benefit.title }}</h3>
-        <p class="mt-2 text-sm text-gray-600">{{ benefit.description }}</p>
+      <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div v-for="benefit in benefits" :key="benefit.title">
+          <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-red/10 text-red">
+            <AppIcon :name="benefit.icon" :size="22" />
+          </span>
+          <h3 class="mt-4 font-bold text-black">{{ benefit.title }}</h3>
+          <p class="mt-2 text-sm text-gray-600">{{ benefit.description }}</p>
+        </div>
       </div>
     </div>
   </section>

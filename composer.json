@@ -1,0 +1,13 @@
+{
+    "name": "osportal/marketing-site",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "authors": [
+        {
+            "name": "Mateusz Rycombel",
+            "email": "mateusz@studiodevs.pl"
+        }
+    ]
+}

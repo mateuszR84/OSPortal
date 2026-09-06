@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# PHP (form.php mailer)
+vendor
+.env
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

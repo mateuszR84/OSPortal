@@ -2,8 +2,6 @@
 import AppIcon from '../AppIcon.vue'
 import devices from '../../assets/devices.png'
 
-defineProps<{ appUrl: string }>()
-
 const points = [
   'Responsywny interfejs — komputer, tablet i telefon',
   'Przejrzysty pulpit z najważniejszymi informacjami',
@@ -13,7 +11,7 @@ const points = [
 </script>
 
 <template>
-  <section class="relative overflow-hidden bg-gray-100 py-20 lg:py-28">
+  <section class="relative overflow-hidden py-20 lg:py-28">
     <div
       class="pointer-events-none absolute inset-y-0 left-0 hidden items-center lg:flex lg:w-[50%] xl:w-[52%]"
       aria-hidden="true"
@@ -38,12 +36,6 @@ const points = [
         </ul>
 
         <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a
-            :href="appUrl"
-            class="inline-block rounded-md bg-red px-6 py-3 font-semibold text-white transition-colors hover:bg-red-dark"
-          >
-            Wypróbuj za darmo
-          </a>
           <a
             href="#funkcje"
             class="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 font-semibold text-navy transition-colors hover:bg-gold-light"

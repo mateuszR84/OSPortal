@@ -3,8 +3,6 @@ import AppIcon from '../AppIcon.vue'
 import heroBg from '../../assets/hero-bg.jpg'
 import heroApp from '../../assets/hero-app1.png'
 
-defineProps<{ appUrl: string }>()
-
 const badges = [
   { icon: 'shield', label: 'Dla każdej OSP' },
   { icon: 'zap', label: 'Łatwe wdrożenie' },
@@ -39,13 +37,6 @@ const badges = [
         </p>
 
         <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a
-            :href="appUrl"
-            class="inline-flex items-center gap-2 rounded-md bg-red px-6 py-3 font-semibold text-white transition-colors hover:bg-red-dark"
-          >
-            Wypróbuj za darmo
-            <AppIcon name="arrow-right" :size="18" />
-          </a>
           <a
             href="#funkcje"
             class="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 font-semibold text-navy transition-colors hover:bg-gold-light"

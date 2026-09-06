@@ -32,10 +32,10 @@ const open = ref(false)
       <div class="hidden items-center gap-4 text-sm font-medium lg:flex">
         <a :href="APP_URL" class="hover:text-gold-light">Zaloguj się</a>
         <a
-          :href="APP_URL"
+          href="#funkcje"
           class="rounded-md bg-red px-4 py-2 text-white transition-colors hover:bg-red-dark"
         >
-          Wypróbuj za darmo
+          Demo
         </a>
       </div>
 
@@ -66,10 +66,11 @@ const open = ref(false)
         </a>
         <a :href="APP_URL" class="hover:text-gold-light">Zaloguj się</a>
         <a
-          :href="APP_URL"
+          href="#funkcje"
           class="rounded-md bg-red px-4 py-2 text-center text-white transition-colors hover:bg-red-dark"
+          @click="open = false"
         >
-          Wypróbuj za darmo
+          Demo
         </a>
       </nav>
     </div>
