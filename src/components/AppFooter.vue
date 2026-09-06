@@ -11,10 +11,10 @@ const productLinks = [
 ] as const
 
 const helpLinks = [
-  { href: '#', label: 'Centrum pomocy' },
-  { href: '#', label: 'FAQ' },
-  { href: '#', label: 'Poradniki' },
-  { href: '#', label: 'Zgłoś problem' },
+  { href: '/pomoc', label: 'Centrum pomocy' },
+  { href: '/pomoc#faq', label: 'FAQ' },
+  { href: '/pomoc#poradniki', label: 'Poradniki' },
+  { href: '/pomoc#zglos-problem', label: 'Zgłoś problem' },
 ] as const
 </script>
 

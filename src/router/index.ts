@@ -8,6 +8,11 @@ const router = createRouter({
       name: 'landing',
       component: () => import('../views/PlatformLanding.vue'),
     },
+    {
+      path: '/pomoc',
+      name: 'help',
+      component: () => import('../views/HelpPage.vue'),
+    },
   ],
 })
 
